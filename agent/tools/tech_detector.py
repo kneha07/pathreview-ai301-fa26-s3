@@ -159,4 +159,8 @@ class TechDetector(BaseTool):
             "/venv/",
         ]
 
-        return any(pattern in filepath for pattern in skip_patterns)
+        # Prefix a slash so a repo-root-relative path like "node_modules/x.js"
+        # matches the same way a nested "src/node_modules/x.js" does.
+        normalized = "/" + filepath
+
+        return any(pattern in normalized for pattern in skip_patterns)
